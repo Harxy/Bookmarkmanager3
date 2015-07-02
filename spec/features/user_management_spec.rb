@@ -1,6 +1,6 @@
 feature 'User sign up' do
 
-  def sign_up(email: 'alice@example.com', 
+  def sign_up(email: 'alice@example.com',
               password: 'oranges!',
               password_confirmation: 'oranges!')
       visit '/users/new'
@@ -21,7 +21,14 @@ feature 'User sign up' do
     expect { sign_up(password_confirmation: 'notoranges!') }.not_to change(User, :count)
     expect(current_path).to eq ('/users')
     # expect(status_code).to eq 200
-    expect(page).to have_content 'Sorry, your passwords do not match.'
+    expect(page).to have_content 'Password does not match the confirmation'
   end
-  
+
+  scenario 'requires the email not to be blank' do
+    expect { sign_up( email: '') }.not_to change(User, :count)
+    expect(current_path).to eq ('/users')
+    expect(page).to have_content 'Email must not be blank'
+
+  end
+
 end

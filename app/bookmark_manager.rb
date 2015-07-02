@@ -2,10 +2,13 @@ require 'sinatra/base'
 require './app/models/link'
 require './app/models/tag'
 require_relative 'data_mapper_setup'
+require 'sinatra/flash'
 
 class BookmarkManager < Sinatra::Base
 
   enable :sessions
+  register Sinatra::Flash
+
   set :session_secret, 'super secret'
 
   set :views, proc {File.join(root,'.', 'views')}
@@ -34,7 +37,7 @@ class BookmarkManager < Sinatra::Base
     tags.each do |tag| #['ruby', 'education']
       link.tags << Tag.create(name: tag) #['ruby', 'education']
     end
-    link.save 
+    link.save
     redirect '/links'
   end
 
@@ -45,19 +48,21 @@ class BookmarkManager < Sinatra::Base
   end
 
   get '/users/new' do
+    @user = User.new
     erb :'users/new'
   end
 
   post '/users' do
-    @message = 'Sorry, your passwords do not match.'
-    user = User.create(email: params[:email], 
-                       password: params[:password], 
-                       password_confirmation: params[:password_confirmation]) 
-    session[:user_id] = user.id # 3
-    if user.save 
-      session[:user_id] = user.id
+    @user = User.create(email: params[:email],
+                       password: params[:password],
+                       password_confirmation: params[:password_confirmation])
+    session[:user_id] = @user.id # 3
+    if @user.save
+      session[:user_id] = @user.id
       redirect to('/')
     else
+      notice = @user.errors.values.flatten.join('<br/>')
+      flash.now[:notice] = notice
       erb :'users/new'
     end
   end
@@ -66,7 +71,7 @@ class BookmarkManager < Sinatra::Base
 
     def current_user
      @user ||= User.get(session[:user_id])
-     # User(id:, session[:user_id]) is returning an array with the user that has the corresponding ID, .first is being called to extract that user.  
+     # User(id:, session[:user_id]) is returning an array with the user that has the corresponding ID, .first is being called to extract that user.
     end
 
   end

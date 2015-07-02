@@ -9,5 +9,8 @@
 			<h2>Welcome, <%= current_user.email %></h2>
 		<% end %>
 		<%= yield %>
+		<% if flash[:notice] %>
+  <div id='notice'><%= flash[:notice] %></div>
+<% end %>
 	</body>
 </html>

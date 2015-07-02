@@ -9,6 +9,7 @@ require 'capybara/rspec'
 require 'rspec'
 require './app/data_mapper_setup'
 require 'database_cleaner'
+require 'factory_girl'
 
 Capybara.app = BookmarkManager
 
@@ -32,7 +33,9 @@ Capybara.app = BookmarkManager
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
-  
+
+  config.include FactoryGirl::Syntax::Methods
+
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)

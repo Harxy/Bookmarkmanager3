@@ -2,7 +2,7 @@
 
 <form action='/users' method='POST'>
 	E-mail
-	<input type="text" name="email" placeholder="e-mail" required>
+	<input type="text" required name="email" placeholder="e-mail" value = '<%= @user.email %>'>
 	Password
 	<input type="password" name="password" placeholder="password" required>
 	<input type="password" name="password_confirmation" placeholder= "confirm password" required>
