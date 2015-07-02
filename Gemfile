@@ -10,10 +10,9 @@ ruby "2.2.1"
   gem 'dm-validations'
   gem 'sinatra-flash'
 
-group :test do
+
   gem 'rspec'
   gem 'capybara'
   gem 'rspec-sinatra'
   gem 'byebug'
   gem 'factory_girl'
-end
