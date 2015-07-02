@@ -1,7 +1,7 @@
 require 'sinatra/base'
 require './app/models/link'
 require './app/models/tag'
-require_relative 'data_mapper_setup'
+require './app/data_mapper_setup'
 require 'sinatra/flash'
 
 class BookmarkManager < Sinatra::Base
