@@ -11,6 +11,7 @@ require './app/data_mapper_setup'
 require 'database_cleaner'
 require 'factory_girl'
 
+
 Capybara.app = BookmarkManager
 
 
